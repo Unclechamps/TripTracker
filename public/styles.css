@@ -1,3 +1,54 @@
+/* LOGIN & SIGN UP */
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: #5f2c82; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #5f2c82, #49a09d); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #5f2c82, #49a09d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: white;
+}
+
+.header {
+  text-align: center;
+}
+
+#signUp, #signIn {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  margin: auto;
+  align-items:center;
+
+}
+
+#signUpUsername, #signUpPassword {
+  margin-bottom: 10px;
+}
+
+#btnSignUp, #btnSignIn {
+  text-align: center;
+  width: 75%;
+  margin-left:20px;
+}
+
+#signInUsername, #signInPassword {
+  margin-bottom: 10px;
+}
+
+#signIn {
+  margin-top: 20px;
+  border-top: 1px solid #fff;
+}
+
+ul #chatMessagesList{
+  list-style: none;
+  height:50%;
+  background-color: blue;
+  color:white;
+}
+
+
+/*TRIPS*/
 img {
   height: 200px;
   width: 200px;

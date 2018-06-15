@@ -1,5 +1,5 @@
+const app = require('express')()
 const express = require('express')
-const app = express()
 const mustacheExpress = require('mustache-express')
 var http = require('http').Server(app);
 var io = require('socket.io')(http)
@@ -85,7 +85,7 @@ app.post('/login',function(req,res){
   let password = req.body.password
 
   var loginSuccess = false
-  
+
   var hour = 3600000
   req.session.cookie.expires = new Date(Date.now() + hour)
   req.session.cookie.maxAge = hour
@@ -171,7 +171,7 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-// Chat Function //
+// CHAT FUNCTIONS //
 // io.on('connection',function(socket){
 //   console.log('USER IS CONNECTED!!!')
 //
@@ -183,8 +183,8 @@ function guid() {
 //   })
 // })
 //
-// app.get('/', function(req, res){
-//   res.sendFile(__dirname + '/login')
+// app.get('/chat', function(req, res){
+//   res.sendFile(__dirname + '/chat.html')
 // });
 
 app.listen(3000, () => console.log('Break on through!'))

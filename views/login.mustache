@@ -2,49 +2,45 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
-    <style>
-
-      ul #chatMessagesList{
-        list-style: none;
-        height:50%;
-        background-color: blue;
-        color:white;
-      }
-
-    </style>
-
+    <title>Travel Page</title>
+  <link href="https://fonts.googleapis.com/css?family=Tajawal:300,400" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
 
+    <h1 class="header">UncleChamps Travel List</h1>
+
+    <div id="signUp">
     <h2>Sign Up</h2>
     <form method="post" action="/register">
-      <label for="username">Username</label>
-      <input type="text" name="username" />
-      <label for="password">Password</label>
-      <input type="text" name="password" />
-      <input type="submit" />
+        <div id="signUpUsername">
+          <label for="username">Username: </label>
+          <input type="text" name="username" placeholder="Enter username..." />
+        </div>
+        <div id="signUpPassword">
+          <label for="password">Password: </label>
+          <input type="text" name="password" placeholder="Enter password..." />
+        </div>
+          <input id="btnSignUp" type="submit" />
     </form>
+    </div>
 
+    <div id="signIn">
     <h2>Sign In</h2>
     <form method="post" action="/login">
-      <label for="username">Username</label>
-      <input type="text" name="username" />
-      <label for="password">Password</label>
-      <input type="text" name="password" />
-      <input type="submit" />
+      <div id="signInUsername">
+        <label for="username">Username: </label>
+        <input type="text" name="username" placeholder="Enter username..."/>
+      </div>
+      <div id="signInPassword">
+        <label for="password">Password: </label>
+        <input type="text" name="password" placeholder="Enter password..."/>
+      </div>
+        <input id="btnSignIn" type="submit" />
     </form>
-
-    <!-- <h2>Chat</h2>
-    <ul id="chatMessagesList">
-    </ul>
-
-    <input type="text" id="chatMessageTextBox"/>
-    <button id="btnSend">Send</button>
-
-    <p> -->
+    </div>
 
   </body>
   <!-- <script src="/socket.io/socket.io.js"></script>
-  <script src="/client.js"></script> -->
+  <script src="client.js"></script> -->
 </html>
