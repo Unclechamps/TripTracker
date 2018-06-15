@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const mustacheExpress = require('mustache-express')
+var http = require('http').Server(app);
+var io = require('socket.io')(http)
 
 var session = require('express-session')
 
@@ -42,71 +44,81 @@ app.get('/',function(req,res){
 
 
 
-// Register
+// REGISTER //
 app.post('/register',function(req,res){
 
   let username = req.body.username
   let password = req.body.password
 
-  if(req.session) {
-    req.session.username = username
+  let user = new User(username,password)
+  // console.log(users.includes(user.username))
+  var foundUser = false
 
-    let user = new User(username,password)
-    // console.log(users.includes(user.username))
-    var foundUser = false
-
-    users.forEach(function(user) {
-      if(username == user.username) {
-        foundUser = true
-      }
-    })
-    if(foundUser) {
-      res.redirect('/signUpError')
-    } else {
-      users.push(user)
+  users.forEach(function(user) {
+    if(username == user.username) {
+      foundUser = true
     }
-}
+  })
+  if(foundUser) {
+    res.redirect('/signUpError')
+    return {}
+  } else {
+    users.push(user)
+  }
 
+  res.redirect('/')
   console.log(users)
-  // res.redirect('/trips')
+  return {}
+
 })
 
-// Sign Up error render
+// SIGN UP ERROR RENDER //
 
 app.get('/signUpError', function(req, res) {
   res.render('signUpError')
 })
 
-//Login
+// LOGIN //
 app.post('/login',function(req,res){
 
   let username = req.body.username
   let password = req.body.password
 
+  var loginSuccess = false
+  
+  var hour = 3600000
+  req.session.cookie.expires = new Date(Date.now() + hour)
+  req.session.cookie.maxAge = hour
+
+  if(req.session) {
+    req.session.username = username
+
+
   currentUser = users.find(checkUsername)
 
   function checkUsername(user) {
     if(user.username == username && user.password == password) {
+    loginSuccess = true
     return user.username
-  } else {
-    res.redirect('/loginError')
+  }
   }}
 
-  console.log(currentUser)
+  if(loginSuccess) {
+    res.redirect('/trips')
+  } else {
+    res.redirect('/loginerror')
+  }
 
-  var hour = 3600000
-  req.session.cookie.expires = new Date(Date.now() + hour)
-  req.session.cookie.maxAge = hour
-  res.redirect('/trips')
+
 })
 
-//Log in Error render //
+// LOG IN ERROR RENDER //
 
 app.get('/loginError', function(req, res) {
   res.render('loginerror')
 })
 
-// Log Out //
+// LOG OUT //
 app.post('/logOut', function(req, res){
   req.session.destroy()
   currentUser = {}
@@ -115,12 +127,12 @@ app.post('/logOut', function(req, res){
 })
 
 
-// Render trips page with trips.mustache //
+// RENDER /TRIPS PAGE //
 app.get('/trips',function(req,res){
   res.render('trips',{tripList : currentUser.trips})
 })
 
-// create a poste route for /trips //
+// CREATE A POST ROUTE TO /TRIPS //
 // trips = []
 app.post('/trips',function(req,res){
 
@@ -131,16 +143,13 @@ app.post('/trips',function(req,res){
   let tripId = guid()
 
   let trip = new Trip(city, image, departureDate, returnDate, tripId)
-
       currentUser.trips.push(trip)
 
-console.log(currentUser)
-//renders the page in trips.mustache  with the array "trips"//
-res.render('trips', {tripList : currentUser.trips})
+  res.render('trips', {tripList : currentUser.trips})
 
 })
 
-//delete a trip //
+// DELETE A TRIP //
 app.post('/deleteTrip',function(req,res){
 
   let tripId = req.body.tripId
@@ -149,12 +158,10 @@ app.post('/deleteTrip',function(req,res){
     return trip.tripId != tripId
   })
 
-console.log(tripId)
-console.log(currentUser.trips)
 res.redirect('/trips')
 })
 
-// get the guid or random tripID //
+// GET THE GUID OR RANDOME TRIP ID //
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -163,5 +170,21 @@ function guid() {
   }
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
+
+// Chat Function //
+// io.on('connection',function(socket){
+//   console.log('USER IS CONNECTED!!!')
+//
+//   // creating a channel called chat
+//   socket.on('chat',function(message){
+//     console.log(message)
+//     // send back the server response to the user
+//     io.emit('chat',message)
+//   })
+// })
+//
+// app.get('/', function(req, res){
+//   res.sendFile(__dirname + '/login')
+// });
 
 app.listen(3000, () => console.log('Break on through!'))
