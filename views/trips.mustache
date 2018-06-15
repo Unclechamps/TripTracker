@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Trips</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"></link>
+  </head>
+  <body>
+
+    <h1>Your trips</h1>
+
+    <form action="/trips" method="post"> <!-- I need to do the action to where to send it and what methdod-->
+        <label for="city">City</label>
+        <input type="text" name="city" />
+
+        <label for="image">Image</label>
+        <input type="text" name="image" />
+
+        <label for="departureDate">Departure Date</label>
+        <input type="text" name="departureDate" />
+
+        <label for="returnDate">Return Date</label>
+        <input type="text" name="returnDate" />
+
+        <input type="submit" />
+    </form>
+
+    <form action="/logOut" method="post">
+      <input type="submit" value="Log Out">
+    </form>
+
+
+    <ul>
+    {{#tripList}}
+      <li>
+      <p>{{city}}</p>
+      <img src='{{image}}'>
+      <p>{{departureDate}}</p>
+      <p>{{returnDate}}</p>
+
+      <form action='/deleteTrip' method='post'>
+        <input type="hidden" name="tripId" value='{{tripId}}' />
+        <input type="submit" value="Delete" />
+      </form>
+
+
+      </li>
+    {{/tripList}}
+    </ul>
+  </body>
+<!-- <script src="public/trip.js"></script> -->
+</html>
